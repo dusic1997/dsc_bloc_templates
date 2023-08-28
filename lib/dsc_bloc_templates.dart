@@ -10,13 +10,15 @@ class DscBlocTemplate<T> extends StatelessWidget {
       required this.itemBuilder,
       this.errorWidgetBuilder,
       this.enablePullDown = true,
-      this.enablePullUp = true})
+      this.enablePullUp = true,
+      this.bottomWidget})
       : super(key: key);
   final Future<List<T>?> Function(int) getPage;
   final Widget Function(T, int) itemBuilder;
   final Widget Function(dynamic)? errorWidgetBuilder;
   final bool enablePullDown;
   final bool enablePullUp;
+  final Widget? bottomWidget;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -62,8 +64,11 @@ class DscBlocTemplate<T> extends StatelessWidget {
                 cubit.refreshController.refreshCompleted();
               },
               child: ListView.builder(
-                itemCount: state.data.length,
+                itemCount: state.data.length + (bottomWidget != null ? 1 : 0),
                 itemBuilder: (BuildContext context, int index) {
+                  if (bottomWidget != null && index == state.data.length) {
+                    return bottomWidget!;
+                  }
                   return itemBuilder(state.data[index], index);
                 },
               ),
