@@ -13,7 +13,7 @@ class DscBlocTemplate<T> extends StatelessWidget {
       this.enablePullUp = true})
       : super(key: key);
   final Future<List<T>?> Function(int) getPage;
-  final Widget Function(T) itemBuilder;
+  final Widget Function(T, int) itemBuilder;
   final Widget Function(dynamic)? errorWidgetBuilder;
   final bool enablePullDown;
   final bool enablePullUp;
@@ -64,7 +64,7 @@ class DscBlocTemplate<T> extends StatelessWidget {
               child: ListView.builder(
                 itemCount: state.data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return itemBuilder(state.data[index]);
+                  return itemBuilder(state.data[index], index);
                 },
               ),
             );
