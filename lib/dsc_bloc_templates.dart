@@ -22,7 +22,9 @@ class DscBlocTemplate<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ListCubit<T>(getPage: getPage),
+      create: (context) => ListCubit<T>(
+        getPage: getPage,
+      ),
       child: Builder(builder: (context) {
         return BlocBuilder<ListCubit<T>, ListState<T>>(
           builder: (context, state) {

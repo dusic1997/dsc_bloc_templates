@@ -5,12 +5,14 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 part 'list_state.dart';
 
 class ListCubit<T> extends Cubit<ListState<T>> {
-  ListCubit({required this.getPage}) : super(ListInitial<T>());
+  ListCubit({required this.getPage, this.params = const []})
+      : super(ListInitial<T>());
   final Future<List<T>?> Function(int) getPage;
   final RefreshController refreshController =
       RefreshController(initialRefresh: true);
   int page = 1;
   bool isEnd = false;
+  final List params;
   void reset() {
     emit(ListInitial());
   }
