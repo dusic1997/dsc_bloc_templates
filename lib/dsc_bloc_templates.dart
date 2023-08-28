@@ -8,11 +8,15 @@ class DscBlocTemplate<T> extends StatelessWidget {
       {Key? key,
       required this.getPage,
       required this.itemBuilder,
-      this.errorWidgetBuilder})
+      this.errorWidgetBuilder,
+      this.enablePullDown = true,
+      this.enablePullUp = true})
       : super(key: key);
   final Future<List<T>?> Function(int) getPage;
   final Widget Function(T) itemBuilder;
   final Widget Function(dynamic)? errorWidgetBuilder;
+  final bool enablePullDown;
+  final bool enablePullUp;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -39,8 +43,8 @@ class DscBlocTemplate<T> extends StatelessWidget {
 
             return SmartRefresher(
               controller: cubit.refreshController,
-              enablePullUp: true,
-              enablePullDown: true,
+              enablePullUp: enablePullUp,
+              enablePullDown: enablePullDown,
               onLoading: () async {
                 try {
                   await cubit.getData(isRefresh: false);
