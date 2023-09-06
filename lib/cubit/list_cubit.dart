@@ -42,6 +42,7 @@ class ListCubit<T> extends Cubit<ListState<T>> {
     }
 
     data.addAll(res);
+    page++;
     emit(ListNormal<T>(data: data));
   }
 }
