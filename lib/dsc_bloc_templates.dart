@@ -19,7 +19,11 @@ class DscBlocTemplate<T> extends StatelessWidget {
   final Widget Function(dynamic)? errorWidgetBuilder;
   final bool enablePullDown;
   final bool enablePullUp;
+
+  ///show at the bottom of the list when no data is returned
   final Widget? bottomWidget;
+
+  ///do not use this unless you know what you are doing
   final Function(ListCubit<T>)? onCubitCreate;
 
   @override
@@ -73,10 +77,11 @@ class DscBlocTemplate<T> extends StatelessWidget {
                 cubit.refreshController.refreshCompleted();
               },
               child: ListView.builder(
-                itemCount: state.data.length + (bottomWidget != null ? 1 : 0),
+                itemCount: state.data.length +
+                    (context.read<ListCubit<T>>().isEnd ? 1 : 0),
                 itemBuilder: (BuildContext context, int index) {
-                  if (bottomWidget != null && index == state.data.length) {
-                    return bottomWidget!;
+                  if (index == state.data.length) {
+                    return bottomWidget ?? SizedBox();
                   }
                   return itemBuilder(state.data[index], index);
                 },
