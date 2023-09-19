@@ -38,6 +38,8 @@ class ListCubit<T> extends Cubit<ListState<T>> {
     }
     if (res == null || res.isEmpty) {
       isEnd = true;
+      emit(ListNormal<T>(data: data));
+
       return;
     }
 
