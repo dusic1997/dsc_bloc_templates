@@ -47,7 +47,7 @@ class DscBlocTemplate<T> extends StatelessWidget {
 
             return SmartRefresher(
               controller: cubit.refreshController,
-              enablePullUp: enablePullUp,
+              enablePullUp: enablePullUp && !cubit.isEnd,
               enablePullDown: enablePullDown,
               onLoading: () async {
                 try {
