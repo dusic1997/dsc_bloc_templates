@@ -11,7 +11,8 @@ class DscBlocTemplate<T> extends StatelessWidget {
       this.errorWidgetBuilder,
       this.enablePullDown = true,
       this.enablePullUp = true,
-      this.bottomWidget})
+      this.bottomWidget,
+      this.onCubitCreate})
       : super(key: key);
   final Future<List<T>?> Function(int) getPage;
   final Widget Function(T, int) itemBuilder;
@@ -19,12 +20,18 @@ class DscBlocTemplate<T> extends StatelessWidget {
   final bool enablePullDown;
   final bool enablePullUp;
   final Widget? bottomWidget;
+  final Function(ListCubit<T>)? onCubitCreate;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ListCubit<T>(
-        getPage: getPage,
-      ),
+      create: (context) {
+        var listCubit = ListCubit<T>(
+          getPage: getPage,
+        );
+        onCubitCreate?.call(listCubit);
+        return listCubit;
+      },
       child: Builder(builder: (context) {
         return BlocBuilder<ListCubit<T>, ListState<T>>(
           builder: (context, state) {
